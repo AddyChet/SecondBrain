@@ -3,6 +3,7 @@ import {
   userSignup,
   userLogin,
   userLogout,
+  checkAuth
 } from "../controllers/userController";
 import { checkAuthenticatedUser } from "../middlewares/authMiddleware";
 
@@ -13,5 +14,7 @@ userRouter.post("/signup", userSignup);
 userRouter.post("/login", userLogin);
 //logout
 userRouter.get("/logout", checkAuthenticatedUser, userLogout);
+
+userRouter.get("/checkAuth", checkAuthenticatedUser, checkAuth)
 
 export default userRouter
