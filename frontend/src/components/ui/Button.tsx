@@ -5,7 +5,7 @@ export interface ButtonProps {
   size: "sm" | "md" | "lg";
   text: string;
   startIcon?: React.ReactElement;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = (props) => {

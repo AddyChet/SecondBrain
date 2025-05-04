@@ -1,17 +1,16 @@
 
 export const linkIdGetter = (type : string, link : string) : string => {
   if (type === "tweet") {
-    const linkArr = link.split("/");
-    const assignedLinkId = linkArr[linkArr.length - 1];
-    console.log(assignedLinkId)
-    return assignedLinkId;
+    const urlSegments  = link.split("/");
+    const tweetId  = urlSegments[urlSegments.length - 1];
+    return tweetId ;
   }
   else if (type === "youtube") {
-    const linkArr = link.split("/")
-    const anotherLinkArr = linkArr[linkArr.length -1].split("=")
-    const length = anotherLinkArr.length - 1
+    const urlSegments = link.split("/")
+    const queryParams  = urlSegments[urlSegments.length -1].split("=")
+    const lastParamIndex = queryParams .length - 1
 
-    return anotherLinkArr[length]
+    return queryParams[lastParamIndex]
   }
   else {
     return ""
