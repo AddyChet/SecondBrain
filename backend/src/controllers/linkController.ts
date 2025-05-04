@@ -3,15 +3,22 @@ import Link from "../models/linkModel";
 import Content from "../models/contentModel";
 
 export const generateShareableLink = async (req: any, res: any) => {
-  const { userId } = req.body;
-
-  if (!userId) return res.status(400).json({ msg: "Missing userId" });
-
+  const { share } = req.body;
   const hash = nanoid().slice(0, 8); // or any other unique generator
 
   try {
-    await Link.create({ hash, userId });
-    res.status(201).json({ shareableLink: `/l/${hash}` });
+    if(!share) {
+      await Link.deleteOne({userId : req.userId});
+      return res.status(200).json({msg : "Link deleted successfully"});
+    }
+
+    const existingLink = await Link.findOne({userId : req.userId})
+    console.log(existingLink)
+    if(existingLink) return res.status(400).json({msg : "Link already exists", hash : existingLink.hash})
+      
+    await Link.create({ hash, userId : req.userId});
+      return res.status(201).json({ shareableLink: `/l/${hash}` });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "Failed to create shareable link" });

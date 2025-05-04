@@ -5,3 +5,7 @@
   --color-button-500: #3e38a7;
   --color-button-600: #5046e4;
 }
+
+.react-tweet-theme {
+  margin-top: 0;
+}

@@ -5,6 +5,6 @@ import { checkAuthenticatedUser } from "../middlewares/authMiddleware";
 const linkRouter = express.Router();
 
 linkRouter.get("/l/:hash", checkAuthenticatedUser, getContentByLink);
-linkRouter.post("/l/share", generateShareableLink);
+linkRouter.post("/l/share", checkAuthenticatedUser, generateShareableLink);
 
 export default linkRouter;
