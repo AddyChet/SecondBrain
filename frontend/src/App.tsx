@@ -13,7 +13,7 @@ const App = () => {
     checkAuth();
   }, [checkAuth])
   
-  console.log(authUser)
+
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
@@ -25,9 +25,12 @@ const App = () => {
     <BrowserRouter>
     <Toaster />
       <Routes>
+        {/* adding replace makes sure that the back button isnt visible for better UX */}
+        <Route path="/" element={<Navigate to="/login" replace/>} />
         <Route path='/dashboard' element={authUser ? <Dashboard/> : <Navigate to={"/login"}/>}/>
-        <Route path='/signup' element={<Signup/>}/>
-        <Route path='/login' element={<Signin />} />
+        <Route path="/login" element={authUser ? <Navigate to="/dashboard" /> : <Signin />} />
+        <Route path="/signup" element={authUser ? <Navigate to="/dashboard" /> : <Signup />} />
+
       </Routes>
     </BrowserRouter>
 

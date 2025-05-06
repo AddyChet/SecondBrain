@@ -1,6 +1,6 @@
 
 export const linkIdGetter = (type : string, link : string) : string => {
-  if (type === "tweet") {
+  if (type === "twitter") {
     const urlSegments  = link.split("/");
     const tweetId  = urlSegments[urlSegments.length - 1];
     return tweetId ;
@@ -13,6 +13,6 @@ export const linkIdGetter = (type : string, link : string) : string => {
     return queryParams[lastParamIndex]
   }
   else {
-    return ""
+    return link;
   }
 };

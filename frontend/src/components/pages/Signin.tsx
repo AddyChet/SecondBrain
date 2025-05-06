@@ -40,7 +40,7 @@ const Signin = () => {
             />
           </div>
 
-          {isLoggingIn ? <Button variant="primary" size="md" text="Loading..." /> : <Button variant="primary" size="md" text="Log Inm" />}
+          {isLoggingIn ? <Button variant="primary" size="md" text="Loading..." /> : <Button variant="primary" size="md" text="Log In" />}
         </form>
         <div className="mt-4">
           <p>

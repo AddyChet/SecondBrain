@@ -3,7 +3,7 @@ import {z} from "zod"
 import { Request, Response } from "express";
 
 export const postContent = async (req: any, res: any): Promise<Response> => {
-  const { title, link, type, tags, userId } = req.body;
+  const { title, link, type, tags} = req.body;
   try {
     const contentSchema = z.object({
       title: z

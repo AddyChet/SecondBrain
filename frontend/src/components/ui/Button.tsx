@@ -1,15 +1,16 @@
-import React from "react";
+import React, { memo } from "react";
 
 export interface ButtonProps {
   variant: "primary" | "secondary";
   size: "sm" | "md" | "lg";
   text: string;
   startIcon?: React.ReactElement;
+  type : string;
   onClick?: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = (props) => {
-  const { variant, size, text, startIcon, onClick } = props;
+export const Button: React.FC<ButtonProps> = memo((props) => {
+  const { variant, size, text, startIcon, onClick, type} = props;
 
   const variantClass =
     variant === "primary"
@@ -27,11 +28,12 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
   return (
     <button
+      type={type}
       className={`${variantClass} ${sizeClass} flex items-center justify-center gap-2 rounded-lg cursor-pointer`}
-      onClick={onClick}
+      onClick={onClick} 
     >
       {startIcon}
       {text}
     </button>
   );
-};
+});

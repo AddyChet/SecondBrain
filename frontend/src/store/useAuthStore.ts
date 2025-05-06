@@ -2,29 +2,41 @@ import { create } from "zustand";
 import { axiosInstance } from "../config";
 import toast from "react-hot-toast";
 
-
-export const useAuthStore = create((set, get) => ({
+interface UserAuthInterface {
+  authUser: object | null;
+  isSigningUp: boolean;
+  isLoggingIn: boolean;
+  isUpdatingProfile: boolean;
+  isCheckingAuth: boolean;
+}
+export const useAuthStore = create<UserAuthInterface>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
 
-  signup: async (data, navigate) => {
+  signup: async (
+    data: object,
+    navigate: (path: string) => void
+  ): Promise<void> => {
     set({ isSigningUp: true });
     try {
-        await axiosInstance.post("/v1/signup", data);
-        toast.success("Account created successfully");
-        navigate("/login");
+      await axiosInstance.post("/v1/signup", data);
+      toast.success("Account created successfully");
+      navigate("/login");
     } catch (error) {
       console.error("Signup Error:", error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      toast.error("Something went wrong");
     } finally {
       set({ isSigningUp: false });
     }
   },
 
-  login: async (data, navigate) => {
+  login: async (
+    data: object,
+    navigate: (path: string) => void
+  ): Promise<void> => {
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/v1/login", data);
@@ -32,38 +44,38 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Logged in successfully");
       navigate("/dashboard");
     } catch (error) {
-        console.log(error)
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error("Something went wrong");
     } finally {
       set({ isLoggingIn: false });
     }
   },
 
-  checkAuth: async () => {
+  checkAuth : async () => {
     try {
-      const res = await axiosInstance("/v1/checkAuth");
-      set({ authUser: res.data.user });
+      const res = await axiosInstance.get("/v1/checkAuth", { withCredentials: true });
+      if (res.data.user) {
+        // Set user if authenticated
+        set({ authUser: res.data.user, isCheckingAuth: false });
+      } else {
+        // No authenticated user (e.g., user is not logged in)
+        set({ authUser: null, isCheckingAuth: false });
+      }
     } catch (error) {
-      console.log(error)
-      set({ authUser: null });
-    } finally {
-      set({ isCheckingAuth: false });
+
+      set({ authUser: null, isCheckingAuth: false });
     }
   },
-
   
-
   logout: async () => {
     try {
-      await axiosInstance.post("/v1/logout");
-      set({ authUser: null });
-    //   toast.success("Logged out successfully");
+      await axiosInstance.get("/v1/logout", { withCredentials: true });
+      set({ authUser: null, isCheckingAuth: false });
+      toast.success("Logged out successfully");
     } catch (error) {
       console.error("Signup Error:", error);
-    //   toast.error(error?.response?.data?.message || "Something went wrong");
+      toast.error("Something went wrong");
+      set({ authUser: null, isCheckingAuth: false });
     }
   },
-
-  
-}))
-
+}));

@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends Request {
   userId?: string; // Add the expected properties
 }
 
-export const userSignup = async (req: Request, res: Response): Promise<Response> => {
+export const userSignup = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
   try {
     const userCheckSchema = z.object({
@@ -147,6 +147,11 @@ export const userLogout = async (req: Request, res: Response): Promise<Response>
 
 export const checkAuth = async (req: AuthenticatedRequest, res: Response): Promise<Response> => { 
   try {
+    if (!req.userId) {
+      // If userId is not present, return unauthenticated
+      return res.status(401).json({ user : null });
+    }
+
     const user = await User.findOne({_id : req.userId})
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
