@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { axiosInstance } from "../config";
+import { axiosInstance } from "../utils/config";
 import toast from "react-hot-toast";
 
 interface UserAuthInterface {

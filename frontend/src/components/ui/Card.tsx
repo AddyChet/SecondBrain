@@ -20,7 +20,7 @@ export const Card: React.FC<CardProps> = (props) => {
 
 
   return (
-    <div className="px-5 py-5 shadow-md rounded-lg border-gray-200 h-full max-w-80 border">
+    <div className="px-4 py-5 rounded-2xl border border-gray-200 bg-white/60 backdrop-blur-md shadow-md max-w-80 hover:scale-110 hover:shadow-xl transition-transform duration-200">
       <div className="flex gap-2 items-center mb-4 justify-between">
         <div className="flex gap-2 items-center">
           {startIcon}
@@ -41,10 +41,10 @@ export const Card: React.FC<CardProps> = (props) => {
       </div>
 
       {/* tags */}
-      <div className="flex gap-2 mt-4">
+      {/* <div className="flex gap-2 mt-4">
         <Tags variant="primary" size="default" text="#Productivity" />
         <Tags variant="primary" size="default" text="#ideas" />
-      </div>
+      </div> */}
 
       {/* date */}
       <div className="mt-5">

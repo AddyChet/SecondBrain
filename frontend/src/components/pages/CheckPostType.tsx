@@ -1,32 +1,23 @@
-import React from "react";
-import { Tweet } from "react-tweet";
-import { linkIdGetter } from "../../utils/linkIdGetter";
+import Microlink from "@microlink/react";
 
-const CheckPostType = (props) => {
-  const { type, link } = props;
- 
-  const linkId = linkIdGetter(type, link);
+interface CheckPostTypeProps {
+  type: "youtube" | "twitter" | "documents" | "links" | string;
+  link: string;
+}
 
+const CheckPostType = ({ type, link }: CheckPostTypeProps) => {
   return (
-    <>
-      {type === "youtube" ? (
-        <iframe
-          className="w-full rounded-md h-full mt-4"
-          //   embed/-s07QZaS4tQ --> watch/v=-s07QZaS4tQ
-          src={`https://www.youtube.com/embed/${linkId}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
-      ) : type === "twitter" ? (
-        <div className="light mt-4">
-          <Tweet id={linkId} />
-        </div>
-      ) : (
-        <div className="light mt-4"></div>
-      )}
-    </>
+    <div className="mt-4 flex justify-center">
+      <div className=" rounded-lg shadow-md overflow-hidden bg-white">
+        <Microlink
+          url={link}
+          media={type === "youtube" ? "iframe" : "logo"}
+          size="medium"
+          lazy
+          fetchData
+        />
+      </div>
+    </div>
   );
 };
 
